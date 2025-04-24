@@ -1,14 +1,14 @@
 <?php
-/*
-Plugin Name: Stupid Simple Media Manager
-Plugin URI: https://github.com/bedynamictech/Stupid-Simple-Media-Manager
-Description: Organize your media into folders.
-Version: 1.0
-Author: Dynamic Technologies
-Author URI: https://bedynamic.tech
-License: GPLv2 or later
-Text Domain: stupid-simple-media-manager
-*/
+/**
+ * Plugin Name:     Stupid Simple Media Manager
+ * Plugin URI:      https://github.com/bedynamictech/Stupid-Simple-Media-Manager
+ * Description:     Organize your media into folders.
+ * Version:         1.0.1
+ * Author:          Dynamic Technologies
+ * Author URI:      https://bedynamic.tech
+ * License:         GPLv2 or later
+ * License URI:     http://www.gnu.org/licenses/gpl-2.0.html
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -192,3 +192,13 @@ function ssm_save_media_folder_field( $post, $attachment ) {
     return $post;
 }
 add_filter( 'attachment_fields_to_save', 'ssm_save_media_folder_field', 10, 2 );
+
+// Add settings link on the Plugins page
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'ssm_action_links' );
+function ssm_action_links( $links ) {
+    $settings_link = '<a href="' . esc_url( admin_url( 'upload.php?page=ssm-media-folders' ) ) . '">' 
+        . __( 'Settings', 'stupid-simple-media-manager' ) 
+        . '</a>';
+    array_unshift( $links, $settings_link );
+    return $links;
+}
